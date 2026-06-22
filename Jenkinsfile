@@ -1,5 +1,8 @@
 pipeline{
     agent any
+    tools {
+        nodejs 'node'
+    }
     environment {
         APP_DIR = 'app'
     }
