@@ -11,7 +11,7 @@ pipeline{
             steps{
                 dir(env.APP_DIR) {
                     echo "incrementing app version..."
-                    sh 'npm version minor -no-git-tag-version'
+                    sh 'npm version minor --no-git-tag-version'
                 }
             }
         }
