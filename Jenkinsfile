@@ -10,17 +10,18 @@ pipeline{
         stage("increment version"){
             steps{
                 dir(env.APP_DIR) {
-                    echo 'incrementing app version...'
-                    sh "npm version minor -no-git-tag-version"
+                    echo "incrementing app version..."
+                    sh 'npm version minor -no-git-tag-version'
                 }
             }
         }
-        // stage("run tests"){
-        //     steps{
-        //         dir(env.APP_DIR) {
-        //             echo "========executing A========"
-        //         }
-        //     }
-        // }
+        stage("run tests"){
+            steps{
+                dir(env.APP_DIR) {
+                    echo "run tests"
+                    sh 'npm install && npm test'
+                }
+            }
+        }
     }
 }
