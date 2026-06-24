@@ -56,8 +56,9 @@ pipeline{
 
                         sh "git remote set-url origin https://github.com/ronkaiser/jenkins-exercises.git"
                         sh 'git add .'
-                        sh 'git commit -m "ci: version bump"'
-                        sh "git push https://${USER}:${PASS}@github.com/ronkaiser/jenkins-exercises.git HEAD:main"
+                        sh 'git diff --cached --quiet || git commit -m "ci: version bump"'
+                        sh 'git pull --rebase https://${USER}:${PASS}@github.com/ronkaiser/jenkins-exercises.git main'
+                        sh 'git push https://${USER}:${PASS}@github.com/ronkaiser/jenkins-exercises.git HEAD:main'
                     }
                 }
             }
