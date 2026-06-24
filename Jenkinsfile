@@ -46,7 +46,7 @@ pipeline{
         stage("commit to git"){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+                    withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'GIT_PASS', usernameVariable: 'GIT_USER')]){
                         sh 'git config --global user.email "jenkins@example.com"'
                         sh 'git config --global user.name "jenkins"'
 
@@ -57,8 +57,10 @@ pipeline{
                         sh "git remote set-url origin https://github.com/ronkaiser/jenkins-exercises.git"
                         sh 'git add .'
                         sh 'git diff --cached --quiet || git commit -m "ci: version bump"'
-                        sh 'git pull --rebase https://${USER}:${PASS}@github.com/ronkaiser/jenkins-exercises.git main'
-                        sh 'git push https://${USER}:${PASS}@github.com/ronkaiser/jenkins-exercises.git HEAD:main'
+                        sh '''
+                            git -c "credential.helper=!f() { echo username=$GIT_USER; echo password=$GIT_PASS; }; f" pull --rebase origin main
+                            git -c "credential.helper=!f() { echo username=$GIT_USER; echo password=$GIT_PASS; }; f" push origin HEAD:main
+                        '''
                     }
                 }
             }
