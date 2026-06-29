@@ -21,8 +21,7 @@ pipeline{
         stage("run tests"){
             steps{
                 dir(env.APP_DIR) {
-                    echo "run tests"
-                    sh 'npm install && npm test'
+                    runtests()
                 }
             }
         }
